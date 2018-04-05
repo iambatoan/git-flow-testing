@@ -58,9 +58,6 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 10
   },
-  textBtn: {
-    color: 'white'
-  },
   number: {
     fontSize: 40,
     color: 'black'
