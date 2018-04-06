@@ -13,6 +13,12 @@ export default class Main extends Component {
             this.props.navigation.navigate('ReduxView');
           }}
         />
+        <Button
+          title="AUTO LAYOUT"
+          onPress={() => {
+            this.props.navigation.navigate('AutoLayoutView');
+          }}
+        />
       </View>
     );
   }
