@@ -28,7 +28,7 @@ export default class Header extends React.Component {
             <Text style={styles.backText}>BACK</Text>
           </TouchableOpacity>
           <View style={styles.headerTitleContainer}>
-            <Text style={styles.headerTitle}>HEADER TITLE</Text>
+            <Text style={styles.headerTitle}>{this.props.title}</Text>
           </View>
         </ImageBackground>
       </View>
