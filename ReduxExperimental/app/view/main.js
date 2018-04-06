@@ -1,19 +1,24 @@
 import React, { Component } from 'react';
 import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
 
+import { Button } from '../components';
+
 export default class Main extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <TouchableOpacity
-          style={styles.button}
-          activeOpacity={0.5}
+        <Button
+          title="REDUX EXAMPLE"
           onPress={() => {
             this.props.navigation.navigate('ReduxView');
           }}
-        >
-          <Text>REDUX EXAMPLE</Text>
-        </TouchableOpacity>
+        />
+        <Button
+          title="AUTO LAYOUT"
+          onPress={() => {
+            this.props.navigation.navigate('AutoLayoutView');
+          }}
+        />
       </View>
     );
   }
@@ -25,14 +30,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF'
-  },
-  button: {
-    width: '80%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'red',
-    padding: 10,
-    borderRadius: 10,
-    borderWidth: 1
   }
 });

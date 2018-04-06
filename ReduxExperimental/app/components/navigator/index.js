@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Easing, Animated } from 'react-native';
+import { StyleSheet, View, Easing, Animated, Platform } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 import Header from './header';
@@ -8,17 +8,22 @@ export default class Navigator extends React.Component {
   render() {
     const { initialRouteName, screenConfig } = this.props;
     const routeConfig = screenConfig.reduce((routes, screen) => {
-      const { screenName } = screen;
+      const { screenName, hideNavBar } = screen;
+      const navigationOptions = ({ navigation }) => {
+        return {
+          header: hideNavBar ? (
+            <View style={styles.header} />
+          ) : (
+            <Header navigation={navigation} title={screenName} />
+          )
+        };
+      };
       routes[screenName] = {
+        navigationOptions,
         ...screen
       };
       return routes;
     }, {});
-    const navigationOptions = ({ navigation }) => {
-      return {
-        header: <Header navigation={navigation} />
-      };
-    };
     const transitionConfig = () => ({
       containerStyle: {
         backgroundColor: 'transparent'
@@ -34,7 +39,6 @@ export default class Navigator extends React.Component {
       }
     });
     const navigationConfig = {
-      navigationOptions,
       transitionConfig,
       initialRouteName
     };
@@ -42,3 +46,13 @@ export default class Navigator extends React.Component {
     return <RootStack />;
   }
 }
+
+const styles = StyleSheet.create({
+  header: {
+    paddingTop: Platform.select({ ios: 20, android: 0 })
+  }
+});
+
+Navigator.defaultProps = {
+  hideNavBar: false
+};

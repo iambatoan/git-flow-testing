@@ -16,6 +16,7 @@ import { Navigator } from './components';
 
 import MainView from './view/main';
 import ReduxView from './view/redux-view';
+import AutoLayoutView from './view/autolayout-view';
 
 export default class App extends Component {
   render() {
@@ -28,6 +29,11 @@ export default class App extends Component {
       {
         screen: ReduxView,
         screenName: 'ReduxView'
+      },
+      {
+        screen: AutoLayoutView,
+        screenName: 'AutoLayoutView'
+        // hideNavBar: true
       }
     ];
     return (

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { MainAction } from '../actions';
+import { Button } from '../components';
 
 class ReduxView extends Component {
   constructor(props) {
@@ -33,12 +34,6 @@ class ReduxView extends Component {
   }
 }
 
-const Button = props => (
-  <TouchableOpacity style={styles.button} {...props}>
-    <Text style={styles.texBtn}>{props.title}</Text>
-  </TouchableOpacity>
-);
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -48,15 +43,6 @@ const styles = StyleSheet.create({
   },
   buttonView: {
     flexDirection: 'row'
-  },
-  button: {
-    borderWidth: 1,
-    borderRadius: 5,
-    backgroundColor: 'red',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 10,
-    margin: 10
   },
   number: {
     fontSize: 40,
