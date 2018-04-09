@@ -1,4 +1,4 @@
-export const data = [
+const LAYOUT_1 = [
   {
     direction: 'row',
     width: '100%',
@@ -25,7 +25,7 @@ export const data = [
   }
 ];
 
-export const data2 = [
+const LAYOUT_2 = [
   {
     direction: 'row',
     width: '100%',
@@ -57,3 +57,5 @@ export const data2 = [
     items: [{}]
   }
 ];
+
+export default { LAYOUT_1, LAYOUT_2 };
