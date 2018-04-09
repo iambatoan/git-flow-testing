@@ -3,6 +3,7 @@ import StringConfig from './strings';
 import MainView from '../container/main';
 import ReduxView from '../container/redux-view';
 import AutoLayoutView from '../container/autolayout-view';
+import NetworkView from '../container/network-view';
 
 const RouteConfig = [
   {
@@ -16,6 +17,11 @@ const RouteConfig = [
   {
     screen: AutoLayoutView,
     screenName: StringConfig.AUTOLAYOUT_TITLE
+    // hideNavBar: true
+  },
+  {
+    screen: NetworkView,
+    screenName: StringConfig.NETWORK_TITLE
     // hideNavBar: true
   }
 ];

@@ -28,6 +28,12 @@ export default class Main extends Component {
             this.props.navigation.navigate(StringConfig.AUTOLAYOUT_TITLE);
           }}
         />
+        <Button
+          title="NETWORK"
+          onPress={() => {
+            this.props.navigation.navigate(StringConfig.NETWORK_TITLE);
+          }}
+        />
       </View>
     );
   }
