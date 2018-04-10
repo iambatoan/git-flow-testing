@@ -9,7 +9,10 @@ import { StringConfig, NavigatorConfig } from './config';
 
 export default class App extends Component {
   render() {
-    const store = createStore(RootReducer);
+    const devTools = global.reduxNativeDevTools
+      ? global.reduxNativeDevTools()
+      : noop => noop;
+    const store = createStore(RootReducer, devTools);
     return (
       <Provider store={store}>
         <Navigator
