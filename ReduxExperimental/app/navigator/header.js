@@ -4,11 +4,10 @@ import {
   View,
   ImageBackground,
   TouchableOpacity,
-  Text,
-  Platform
+  Text
 } from 'react-native';
 
-import { Colors } from '../../constants';
+import { Colors } from '../constants';
 
 const styles = StyleSheet.create({
   headerContainer: {
