@@ -24,7 +24,8 @@ const RouteConfig = [
   {
     screenName: StringConfig.Network.Name,
     screen: NetworkView,
-    title: StringConfig.Network.Title
+    title: StringConfig.Network.Title,
+    hideNavBar: true
   }
 ];
 

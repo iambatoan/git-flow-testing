@@ -20,7 +20,7 @@ const _processRouteConfig = () =>
     };
     const _navigationOptions = ({ navigation }) => ({
       header: hideNavBar ? (
-        <View style={headerStyle} />
+        undefined
       ) : (
         <Header
           containerStyle={headerStyle}
@@ -28,6 +28,7 @@ const _processRouteConfig = () =>
           title={title}
         />
       ),
+      title,
       ...navigationOptions
     });
     routes[screenName] = {
