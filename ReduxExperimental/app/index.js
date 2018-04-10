@@ -1,24 +1,16 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
 
-import RootReducer from './reducer';
+import configureStore from './configureStore';
 
-import { Navigator } from './components';
-import { StringConfig, NavigatorConfig } from './config';
+import AppWithNavigationState from './navigator';
 
 export default class App extends Component {
   render() {
-    const devTools = global.reduxNativeDevTools
-      ? global.reduxNativeDevTools()
-      : noop => noop;
-    const store = createStore(RootReducer, devTools);
+    const store = configureStore();
     return (
       <Provider store={store}>
-        <Navigator
-          screenConfig={NavigatorConfig.RouteConfig}
-          initialRouteName={StringConfig.HOME_TITLE}
-        />
+        <AppWithNavigationState />
       </Provider>
     );
   }

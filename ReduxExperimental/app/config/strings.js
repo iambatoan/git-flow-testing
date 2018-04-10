@@ -1,6 +1,18 @@
 export default {
-  HOME_TITLE: 'Home',
-  REDUX_TITLE: 'Redux Example',
-  AUTOLAYOUT_TITLE: 'AutoLayout Example',
-  NETWORK_TITLE: 'Network Example'
+  Home: {
+    Name: 'Home',
+    Title: 'Home'
+  },
+  Redux: {
+    Name: 'ReduxExample',
+    Title: 'Redux Example'
+  },
+  AutoLayout: {
+    Name: 'AutoLayoutExample',
+    Title: 'AutoLayout Example'
+  },
+  Network: {
+    Name: 'NetworkExample',
+    Title: 'Network Example'
+  }
 };

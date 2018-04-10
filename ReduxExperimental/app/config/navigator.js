@@ -7,22 +7,24 @@ import NetworkView from '../container/network-view';
 
 const RouteConfig = [
   {
+    screenName: StringConfig.Home.Name,
     screen: MainView,
-    screenName: StringConfig.HOME_TITLE
+    title: StringConfig.Home.Title
   },
   {
+    screenName: StringConfig.Redux.Name,
     screen: ReduxView,
-    screenName: StringConfig.REDUX_TITLE
+    title: StringConfig.Redux.Title
   },
   {
+    screenName: StringConfig.AutoLayout.Name,
     screen: AutoLayoutView,
-    screenName: StringConfig.AUTOLAYOUT_TITLE
-    // hideNavBar: true
+    title: StringConfig.AutoLayout.Title
   },
   {
+    screenName: StringConfig.Network.Name,
     screen: NetworkView,
-    screenName: StringConfig.NETWORK_TITLE
-    // hideNavBar: true
+    title: StringConfig.Network.Title
   }
 ];
 
