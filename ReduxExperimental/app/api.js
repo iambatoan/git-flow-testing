@@ -25,6 +25,14 @@ axios.defaults.headers.post['Content-Type'] =
   'application/x-www-form-urlencoded';
 
 const TIMEOUT_REQUEST = 5000;
+const METHOD_REQUEST = {
+  GET: 'get',
+  POST: 'post'
+};
+const RequestOptions = { timeout: TIMEOUT_REQUEST };
+const PATH_REQUEST = {
+  MusicAlbums: 'music_albums'
+};
 
 function _handleErrorResponse(error) {
   let response = {
@@ -46,13 +54,13 @@ function _handleErrorResponse(error) {
   return Promise.reject(response);
 }
 
-async function request(apiPath = 'music_albums', params = {}, method = 'get') {
+async function request(apiPath, params = {}, method = METHOD_REQUEST.GET) {
   const options = {
+    ...RequestOptions,
     method,
-    url: axios.defaults.baseURL + apiPath,
-    timeout: TIMEOUT_REQUEST
+    url: axios.defaults.baseURL + apiPath
   };
-  if (method === 'post') {
+  if (method === METHOD_REQUEST.POST) {
     options.data = JSON.stringify(params);
   }
   try {
@@ -71,4 +79,19 @@ async function request(apiPath = 'music_albums', params = {}, method = 'get') {
   }
 }
 
-export default { request };
+function get(apiPath, params = {}) {
+  if (Object.keys(params).length !== 0) {
+    apiPath += `?${JSON.stringify(params)}`;
+  }
+  return request(apiPath);
+}
+
+function post(apiPath, params = {}) {
+  return request(apiPath, params, METHOD_REQUEST.POST);
+}
+
+function fetchAlbums() {
+  return get(PATH_REQUEST.MusicAlbums);
+}
+
+export default { fetchAlbums };

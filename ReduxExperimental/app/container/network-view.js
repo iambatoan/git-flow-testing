@@ -41,7 +41,7 @@ export default class NetworkView extends React.PureComponent {
   }
 
   componentDidMount() {
-    API.request()
+    API.fetchAlbums()
       .then(response => {
         this.setState({
           status: requestStatus.DONE,
