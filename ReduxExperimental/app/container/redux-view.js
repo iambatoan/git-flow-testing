@@ -1,10 +1,26 @@
 import React, { Component } from 'react';
-import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { MainAction } from '../actions';
 import { Button } from '../components';
+import { Colors } from '../constants';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  buttonView: {
+    flexDirection: 'row'
+  },
+  number: {
+    fontSize: 40,
+    color: Colors.black
+  }
+});
 
 class ReduxView extends Component {
   constructor(props) {
@@ -33,22 +49,6 @@ class ReduxView extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
-  },
-  buttonView: {
-    flexDirection: 'row'
-  },
-  number: {
-    fontSize: 40,
-    color: 'black'
-  }
-});
 
 const mapStateToProps = state => ({ ...state.Main });
 const mapDispatchToProps = dispatch => ({

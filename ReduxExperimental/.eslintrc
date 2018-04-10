@@ -4,9 +4,33 @@
   "env": {
     "react-native/react-native": true
   },
+  "extends": [
+    "prettier",
+    "prettier/flowtype",
+    "prettier/react",
+    "prettier/standard",
+    "airbnb",
+    "react-native"
+  ],
   "rules": {
-    "react-native/no-unused-styles": 2,
-    "react-native/split-platform-components": 2,
-    "react-native/no-inline-styles": 2
+    "react/jsx-boolean-value": 0,
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "import/extensions": [0, { "extensions": [".js", ".jsx"] }],
+    "no-console": 0,
+    "consistent-return": 0,
+    "global-require": 0,
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"],
+    "eol-last": ["error", "always"],
+    "no-unused-vars": [2, { "args": "none" }],
+    "jsx-a11y/href-no-hash": "off",
+    "react/display-name": [1, { "ignoreTranspilerName": false }],
+    "react/jsx-handler-names": [
+      "off",
+      {
+        "eventHandlerPrefix": "handle",
+        "eventHandlerPropPrefix": "on"
+      }
+    ]
   }
 }

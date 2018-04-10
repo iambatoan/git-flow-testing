@@ -8,12 +8,42 @@ import {
   Platform
 } from 'react-native';
 
+import { Colors } from '../../constants';
+
+const styles = StyleSheet.create({
+  headerContainer: {
+    height: '25%'
+  },
+  backgroundHeader: {
+    flex: 1,
+    alignSelf: 'stretch',
+    width: null,
+    height: null,
+    paddingHorizontal: 12
+  },
+  backText: {
+    color: Colors.black,
+    fontSize: 15,
+    fontWeight: 'bold'
+  },
+  headerTitleContainer: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+  headerTitle: {
+    color: Colors.red,
+    fontSize: 30,
+    textAlign: 'center',
+    fontWeight: 'bold'
+  }
+});
+
 export default class Header extends React.Component {
   render() {
     return (
       <View style={styles.headerContainer}>
         <ImageBackground
-          style={styles.backgroundHeader}
+          style={[this.props.containerStyle, styles.backgroundHeader]}
           resizeMode="stretch"
           source={{
             uri:
@@ -35,32 +65,3 @@ export default class Header extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  headerContainer: {
-    height: '25%'
-  },
-  backgroundHeader: {
-    flex: 1,
-    alignSelf: 'stretch',
-    width: null,
-    height: null,
-    paddingTop: Platform.select({ ios: 20, android: 0 }),
-    paddingHorizontal: 12
-  },
-  backText: {
-    color: 'black',
-    fontSize: 15,
-    fontWeight: 'bold'
-  },
-  headerTitleContainer: {
-    flex: 1,
-    justifyContent: 'center'
-  },
-  headerTitle: {
-    color: 'red',
-    fontSize: 30,
-    textAlign: 'center',
-    fontWeight: 'bold'
-  }
-});
