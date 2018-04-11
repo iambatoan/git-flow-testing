@@ -9,6 +9,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "eslint-config-react-native": "^2.0.0",
+    "query-string": "^6.0.0",
     "react": "^16.0.0",
     "react-native": "0.55.0",
     "react-navigation": "^1.5.11",
