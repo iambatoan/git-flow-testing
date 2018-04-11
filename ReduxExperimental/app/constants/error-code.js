@@ -1,5 +1,6 @@
 export default {
-  SUCCESS: 200,
+  HTTP_SUCCESS: 200,
+  SERVER_SUCCESS: 1000,
   UNKNOW: -1,
   TIMEOUT: 408
 };

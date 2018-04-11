@@ -1,74 +1,166 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { LoginAction } from '../actions';
 
 import API from '../api';
-import { Colors, ErrorCode } from '../constants';
+import { Colors } from '../constants';
+import { Button, InformationInput } from '../components';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
+    padding: 10
   },
-  responseView: {
-    backgroundColor: Colors.responseBox,
-    margin: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 10,
-    borderWidth: 1,
-    borderColor: Colors.black
+  button: {
+    backgroundColor: Colors.white
   },
   error: {
-    color: Colors.red
+    marginVertical: 10,
+    color: Colors.red,
+    textAlign: 'center'
+  },
+  loadingView: {
+    marginTop: 15
+  },
+  userTitle: {
+    marginVertical: 10
   }
 });
 
 const requestStatus = {
-  NOTHING: 'Nothing',
-  FETCHING: 'Fetching',
-  DONE: 'Done'
+  HAVENT_YET_LOG: 1,
+  LOGGED: 2
 };
 
-export default class NetworkView extends React.PureComponent {
+const checkLogged = accesstoken =>
+  accesstoken && accesstoken.length > 0
+    ? requestStatus.LOGGED
+    : requestStatus.HAVENT_YET_LOG;
+
+// "email": "marthavangra@gmail.com",
+// "password": "helloXtayPro"
+
+class NetworkView extends React.PureComponent {
   constructor(props) {
     super(props);
+
+    this.email = '';
+    this.password = '';
+
+    this.onChangeEmail = this._handleChangeEmail.bind(this);
+    this.onChangePassword = this._handleChangePassword.bind(this);
+    this.login = this._handleLogin.bind(this);
+    this.logout = this._handleLogout.bind(this);
+    this.getUserInfor = this._getUserInfor.bind(this);
+
     this.state = {
-      status: requestStatus.FETCHING,
-      error: '',
-      response: ''
+      status: checkLogged(this.props.accessToken)
     };
   }
 
-  componentDidMount() {
-    API.fetchAlbums()
-      .then(response => {
-        this.setState({
-          status: requestStatus.DONE,
-          response: String(response.data.map(item => item.title))
-        });
-      })
-      .catch(error => {
-        this.setState({ status: requestStatus.DONE });
-        if (error.errorMessage) {
-          this.setState({ error: error.errorMessage });
-        }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.accessToken !== this.props.accessToken) {
+      this.setState({
+        status: checkLogged(nextProps.accessToken)
       });
+    }
+  }
+
+  componentWillUnmount() {
+    API.cancelRequest();
+  }
+
+  _handleChangeEmail(text) {
+    this.email = text;
+  }
+
+  _handleChangePassword(text) {
+    this.password = text;
+  }
+
+  _handleLogin() {
+    this.props.actions.login({ email: this.email, password: this.password });
+  }
+
+  _handleLogout() {
+    this.email = '';
+    this.password = '';
+    this.props.actions.logout(this.props.accessToken);
+  }
+
+  _getUserInfor() {
+    this.props.actions.getUserInfor(this.props.accessToken);
+  }
+
+  renderUser() {
+    const { user } = this.props;
+    return (
+      <View>
+        <Text style={styles.userTitle}>User Information</Text>
+        {Object.keys(user).map((element, index) => (
+          <Text key={index}>
+            {`${element.toUpperCase()}: ${user[element]}`}
+          </Text>
+        ))}
+      </View>
+    );
+  }
+
+  renderButton() {
+    if (this.state.status === requestStatus.HAVENT_YET_LOG) {
+      return (
+        <Button title="Login" style={styles.button} onPress={this.login} />
+      );
+    }
+    return (
+      <View>
+        <Button
+          title="Get User Information"
+          style={styles.button}
+          onPress={this.getUserInfor}
+        />
+        <Button title="Logout" style={styles.button} onPress={this.logout} />
+      </View>
+    );
   }
 
   render() {
+    const { errorMessage, user } = this.props;
+    const { status } = this.state;
     return (
       <View style={styles.container}>
-        <Text>{`STATUS: ${this.state.status}`}</Text>
-        {this.state.response.length !== 0 ? (
-          <View style={styles.responseView}>
-            <Text>{this.state.response}</Text>
+        {status === requestStatus.HAVENT_YET_LOG ? (
+          <View>
+            <InformationInput title="Email" onChangeText={this.onChangeEmail} />
+            <InformationInput
+              title="Password"
+              secureTextEntry={true}
+              onChangeText={this.onChangePassword}
+            />
           </View>
         ) : null}
-        {this.state.error.length !== 0 ? (
-          <Text style={styles.error}>{`ERROR: ${this.state.error}`}</Text>
+        {errorMessage && errorMessage.length > 0 ? (
+          <Text style={styles.error}>{`Error: ${errorMessage}`}</Text>
         ) : null}
+        {Object.keys(user).length > 0 ? this.renderUser() : null}
+        {this.props.isLoading ? (
+          <View style={styles.loadingView}>
+            <ActivityIndicator />
+          </View>
+        ) : (
+          this.renderButton()
+        )}
       </View>
     );
   }
 }
+
+const mapStateToProps = state => ({ ...state.auth, ...state.login });
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(LoginAction, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NetworkView);
