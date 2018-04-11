@@ -50,7 +50,7 @@ class ReduxView extends Component {
   }
 }
 
-const mapStateToProps = state => ({ ...state.Main });
+const mapStateToProps = state => ({ ...state.main });
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(MainAction, dispatch)
 });

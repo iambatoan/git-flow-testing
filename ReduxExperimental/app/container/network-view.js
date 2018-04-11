@@ -1,8 +1,11 @@
 import React from 'react';
 import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { LoginAction } from '../actions';
 
 import API from '../api';
-import { Parser } from '../utils';
 import { Colors } from '../constants';
 import { Button, InformationInput } from '../components';
 
@@ -32,10 +35,15 @@ const requestStatus = {
   LOGGED: 2
 };
 
+const checkLogged = accesstoken =>
+  accesstoken && accesstoken.length > 0
+    ? requestStatus.LOGGED
+    : requestStatus.HAVENT_YET_LOG;
+
 // "email": "marthavangra@gmail.com",
 // "password": "helloXtayPro"
 
-export default class NetworkView extends React.PureComponent {
+class NetworkView extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -48,15 +56,17 @@ export default class NetworkView extends React.PureComponent {
     this.logout = this._handleLogout.bind(this);
     this.getUserInfor = this._getUserInfor.bind(this);
 
-    this.initialState = {
-      status: requestStatus.HAVENT_YET_LOG,
-      error: '',
-      accesstoken: '',
-      loading: false,
-      user: {}
+    this.state = {
+      status: checkLogged(this.props.accessToken)
     };
+  }
 
-    this.state = this.initialState;
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.accessToken !== this.props.accessToken) {
+      this.setState({
+        status: checkLogged(nextProps.accessToken)
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -72,64 +82,27 @@ export default class NetworkView extends React.PureComponent {
   }
 
   _handleLogin() {
-    this.setState({ loading: true });
-    API.login({ email: this.email, password: this.password })
-      .then(resp => {
-        this.setState({
-          loading: false,
-          status: requestStatus.LOGGED,
-          accesstoken: resp.data.access_token,
-          error: ''
-        });
-      })
-      .catch(error => {
-        this.setState({
-          loading: false,
-          error: error.errorMessage
-        });
-      });
+    this.props.actions.login({ email: this.email, password: this.password });
   }
 
   _handleLogout() {
-    API.logout(this.state.accesstoken)
-      .then(resp => {
-        this.email = '';
-        this.password = '';
-        this.setState({
-          ...this.initialState
-        });
-      })
-      .catch(error => {
-        this.setState({
-          error: error.errorMessage
-        });
-      });
+    this.email = '';
+    this.password = '';
+    this.props.actions.logout(this.props.accessToken);
   }
 
   _getUserInfor() {
-    this.setState({ loading: true });
-    API.getUserInfo(this.state.accesstoken)
-      .then(resp => {
-        this.setState({
-          loading: false,
-          user: Parser.parseUser(resp.data.user)
-        });
-      })
-      .catch(error => {
-        this.setState({
-          loading: false,
-          error: error.errorMessage
-        });
-      });
+    this.props.actions.getUserInfor(this.props.accessToken);
   }
 
   renderUser() {
+    const { user } = this.props;
     return (
       <View>
         <Text style={styles.userTitle}>User Information</Text>
-        {Object.keys(this.state.user).map((element, index) => (
+        {Object.keys(user).map((element, index) => (
           <Text key={index}>
-            {`${element.toUpperCase()}: ${this.state.user[element]}`}
+            {`${element.toUpperCase()}: ${user[element]}`}
           </Text>
         ))}
       </View>
@@ -155,9 +128,11 @@ export default class NetworkView extends React.PureComponent {
   }
 
   render() {
+    const { errorMessage, user } = this.props;
+    const { status } = this.state;
     return (
       <View style={styles.container}>
-        {this.state.status === requestStatus.HAVENT_YET_LOG ? (
+        {status === requestStatus.HAVENT_YET_LOG ? (
           <View>
             <InformationInput title="Email" onChangeText={this.onChangeEmail} />
             <InformationInput
@@ -167,11 +142,11 @@ export default class NetworkView extends React.PureComponent {
             />
           </View>
         ) : null}
-        {this.state.error && this.state.error.length > 0 ? (
-          <Text style={styles.error}>{`Error: ${this.state.error}`}</Text>
+        {errorMessage && errorMessage.length > 0 ? (
+          <Text style={styles.error}>{`Error: ${errorMessage}`}</Text>
         ) : null}
-        {Object.keys(this.state.user).length > 0 ? this.renderUser() : null}
-        {this.state.loading ? (
+        {Object.keys(user).length > 0 ? this.renderUser() : null}
+        {this.props.isLoading ? (
           <View style={styles.loadingView}>
             <ActivityIndicator />
           </View>
@@ -182,3 +157,10 @@ export default class NetworkView extends React.PureComponent {
     );
   }
 }
+
+const mapStateToProps = state => ({ ...state.auth, ...state.login });
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(LoginAction, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(NetworkView);

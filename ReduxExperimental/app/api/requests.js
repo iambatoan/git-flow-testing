@@ -48,9 +48,12 @@ function _handleErrorResponse(error) {
     const { data, status, statusText, headers } = error.response;
     response = {
       data,
-      code: status,
-      errorMessage: statusText || headers.status
+      code: status
     };
+    const message = statusText || headers.status;
+    if (message) {
+      response.errorMessage = message;
+    }
   } else if (error.request) {
     // The request was made but no response was received
     response.code = ErrorCode.TIMEOUT;

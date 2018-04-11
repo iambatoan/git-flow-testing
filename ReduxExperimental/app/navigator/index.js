@@ -53,7 +53,7 @@ const AppWithNavigationState = ({ dispatch, nav }) => (
   />
 );
 
-const mapStatetoProps = state => ({ nav: state.Nav });
+const mapStatetoProps = state => ({ nav: state.nav });
 
 export { AppNavigator, NavigatorMiddleware };
 export default connect(mapStatetoProps)(AppWithNavigationState);
