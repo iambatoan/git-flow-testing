@@ -19,9 +19,9 @@ export default class Button extends React.PureComponent {
   render() {
     return (
       <TouchableOpacity
-        style={styles.button}
         activeOpacity={0.5}
         {...this.props}
+        style={[styles.button, this.props.style]}
       >
         <Text>{this.props.title}</Text>
       </TouchableOpacity>
