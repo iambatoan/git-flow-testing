@@ -1,9 +1,9 @@
 import StringConfig from './strings';
 
 import MainView from '../container/main';
-import ReduxView from '../container/redux-view';
-import AutoLayoutView from '../container/autolayout-view';
-import NetworkView from '../container/network-view';
+import ReduxView from '../container/redux-example';
+import AutoLayoutView from '../container/autolayout-example';
+import NetworkView from '../container/network-example';
 
 const RouteConfig = [
   {

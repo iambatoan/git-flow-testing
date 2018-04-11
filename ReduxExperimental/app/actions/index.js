@@ -1,5 +1,5 @@
 import ActionTypes from './action-types';
-import MainAction from './main-actions';
-import LoginAction from './login-actions';
+import MainAction from './main';
+import UserAction from './user';
 
-export { ActionTypes, MainAction, LoginAction };
+export { ActionTypes, MainAction, UserAction };

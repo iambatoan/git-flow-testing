@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { LoginAction } from '../actions';
+import { UserAction } from '../actions';
 
 import API from '../api';
 import { Colors } from '../constants';
@@ -158,9 +158,9 @@ class NetworkView extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({ ...state.auth, ...state.login });
+const mapStateToProps = state => ({ ...state.auth, ...state.user });
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(LoginAction, dispatch)
+  actions: bindActionCreators(UserAction, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NetworkView);
