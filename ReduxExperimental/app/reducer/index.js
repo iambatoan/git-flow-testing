@@ -1,14 +1,18 @@
 import { combineReducers } from 'redux';
 import { PersistStoreConfig } from '../config';
 
-import Nav from './nav-reducer';
-import Main from './main-reducer';
-import Auth from './auth-reducer';
-import Login from './login-reducer';
+import Nav from './nav';
+import Main from './main';
+import Auth from './auth';
+import User from './user';
+import Offer from './offer';
+import DetailOffer from './detail-offer';
 
 export default combineReducers({
   nav: Nav,
   main: Main,
   [PersistStoreConfig.AUTH_KEY]: Auth,
-  login: Login
+  user: User,
+  offer: Offer,
+  detailoffer: DetailOffer
 });

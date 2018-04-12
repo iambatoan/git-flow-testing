@@ -2,12 +2,16 @@ import React from 'react';
 import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { NavigationActions } from 'react-navigation';
 
-import { LoginAction } from '../actions';
+import { StringConfig } from '../../config';
+import { UserAction } from '../../actions';
 
-import API from '../api';
-import { Colors } from '../constants';
-import { Button, InformationInput } from '../components';
+import API from '../../api';
+import { Colors } from '../../constants';
+import { Button, InformationInput } from '../../components';
+import OfferListView from './transition-offer-list';
+import DetailOfferView from './transition-detail-offer';
 
 const styles = StyleSheet.create({
   container: {
@@ -122,6 +126,11 @@ class NetworkView extends React.PureComponent {
           style={styles.button}
           onPress={this.getUserInfor}
         />
+        <Button
+          title="Offer List"
+          style={styles.button}
+          onPress={this.props.navigateOfferList}
+        />
         <Button title="Logout" style={styles.button} onPress={this.logout} />
       </View>
     );
@@ -158,9 +167,16 @@ class NetworkView extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({ ...state.auth, ...state.login });
+const mapStateToProps = state => ({ ...state.auth, ...state.user });
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(LoginAction, dispatch)
+  actions: bindActionCreators(UserAction, dispatch),
+  navigateOfferList: () =>
+    dispatch(
+      NavigationActions.navigate({
+        routeName: StringConfig.OfferList.Name
+      })
+    )
 });
 
+export { OfferListView, DetailOfferView };
 export default connect(mapStateToProps, mapDispatchToProps)(NetworkView);
