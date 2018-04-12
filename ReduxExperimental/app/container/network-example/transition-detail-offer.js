@@ -1,12 +1,20 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, ActivityIndicator } from 'react-native';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
+import { OfferAction } from '../../actions';
 import { Colors } from '../../constants';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 12
+  },
+  loadingView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   title: {
     fontWeight: 'bold'
@@ -22,10 +30,23 @@ const styles = StyleSheet.create({
     height: StyleSheet.hairlineWidth,
     backgroundColor: Colors.black,
     marginVertical: 5
+  },
+  error: {
+    color: Colors.red,
+    textAlign: 'center'
   }
 });
 
 class TransitionOffers extends React.Component {
+  componentDidMount() {
+    const { id } = this.props.navigation.state.params;
+    this.props.actions.getDetailOffer(id);
+  }
+
+  componentWillUnmount() {
+    this.props.actions.resetDetailOffer();
+  }
+
   _renderContent = (title, content) => (
     <Text style={styles.title}>
       {title}
@@ -65,7 +86,21 @@ class TransitionOffers extends React.Component {
   }
 
   render() {
-    const { data } = this.props.navigation.state.params;
+    const { isLoading, data, errorMessage } = this.props;
+    if (errorMessage && errorMessage.length > 0) {
+      return (
+        <View style={styles.loadingView}>
+          <Text style={styles.error}>{`Error: ${errorMessage}`}</Text>
+        </View>
+      );
+    }
+    if (isLoading || !data || Object.keys(data).length === 0) {
+      return (
+        <View style={styles.loadingView}>
+          <ActivityIndicator />
+        </View>
+      );
+    }
     return (
       <View style={styles.container}>
         {this._renderOffer(data.offer)}
@@ -76,4 +111,9 @@ class TransitionOffers extends React.Component {
   }
 }
 
-export default TransitionOffers;
+const mapStateToProps = state => ({ ...state.detailoffer });
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(OfferAction, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TransitionOffers);

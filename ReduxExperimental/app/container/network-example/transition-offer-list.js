@@ -4,17 +4,25 @@ import {
   FlatList,
   Text,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  ActivityIndicator
 } from 'react-native';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { NavigationActions } from 'react-navigation';
 
-import { ActionTypes } from '../../actions';
-
+import { StringConfig } from '../../config';
 import { Colors } from '../../constants';
+import { OfferAction } from '../../actions';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  loadingView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   rowContainer: {
     flexDirection: 'row',
@@ -41,6 +49,10 @@ const styles = StyleSheet.create({
   },
   content: {
     fontWeight: 'normal'
+  },
+  error: {
+    color: Colors.red,
+    textAlign: 'center'
   }
 });
 
@@ -53,6 +65,14 @@ class TransitionOffers extends React.Component {
   constructor(props) {
     super(props);
     this._renderItem = this._renderItem.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.actions.getOffers();
+  }
+
+  componentWillUnmount() {
+    this.props.actions.resetOffer();
   }
 
   _keyExtractor = (item, index) => String(item.offer.id);
@@ -92,11 +112,25 @@ class TransitionOffers extends React.Component {
   }
 
   render() {
-    const { datas } = this.props.navigation.state.params;
+    const { isLoading, offers, errorMessage } = this.props;
+    if (errorMessage && errorMessage.length > 0) {
+      return (
+        <View style={styles.loadingView}>
+          <Text style={styles.error}>{`Error: ${errorMessage}`}</Text>
+        </View>
+      );
+    }
+    if (isLoading) {
+      return (
+        <View style={styles.loadingView}>
+          <ActivityIndicator />
+        </View>
+      );
+    }
     return (
       <View style={styles.container}>
         <FlatList
-          data={datas}
+          data={offers}
           renderItem={this._renderItem}
           keyExtractor={this._keyExtractor}
           ItemSeparatorComponent={this._renderSeparator}
@@ -106,9 +140,16 @@ class TransitionOffers extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({ ...state.offer });
 const mapDispatchToProps = dispatch => ({
-  navigateToDetail: id => dispatch({ type: ActionTypes.FETCH_DETAIL_OFFER, id })
+  actions: bindActionCreators(OfferAction, dispatch),
+  navigateToDetail: id =>
+    dispatch(
+      NavigationActions.navigate({
+        routeName: StringConfig.DetailOffer.Name,
+        params: { id }
+      })
+    )
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TransitionOffers);

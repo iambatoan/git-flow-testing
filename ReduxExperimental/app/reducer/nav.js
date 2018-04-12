@@ -8,26 +8,26 @@ const initialState = AppNavigator.router.getStateForAction(
 );
 
 export default (state = initialState, action = {}) => {
-  let nextState = AppNavigator.router.getStateForAction(action, state);
-  switch (action.type) {
-    case ActionTypes.NAVIGATE_OFFER:
-      nextState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({
-          routeName: StringConfig.OfferList.Name,
-          params: { datas: action.data }
-        }),
-        state
-      );
-      break;
-    case ActionTypes.NAVIGATE_DETAIL_OFFER:
-      nextState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({
-          routeName: StringConfig.DetailOffer.Name,
-          params: { data: action.data }
-        }),
-        state
-      );
-      break;
-  }
+  const nextState = AppNavigator.router.getStateForAction(action, state);
+  // switch (action.type) {
+  //   case ActionTypes.NAVIGATE_OFFER:
+  //     nextState = AppNavigator.router.getStateForAction(
+  //       NavigationActions.navigate({
+  //         routeName: StringConfig.OfferList.Name,
+  //         params: { datas: action.data }
+  //       }),
+  //       state
+  //     );
+  //     break;
+  //   case ActionTypes.NAVIGATE_DETAIL_OFFER:
+  //     nextState = AppNavigator.router.getStateForAction(
+  //       NavigationActions.navigate({
+  //         routeName: StringConfig.DetailOffer.Name,
+  //         params: { data: action.data }
+  //       }),
+  //       state
+  //     );
+  //     break;
+  // }
   return nextState || state;
 };

@@ -2,8 +2,10 @@ import React from 'react';
 import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { NavigationActions } from 'react-navigation';
 
-import { ActionTypes, UserAction } from '../../actions';
+import { StringConfig } from '../../config';
+import { UserAction } from '../../actions';
 
 import API from '../../api';
 import { Colors } from '../../constants';
@@ -168,7 +170,12 @@ class NetworkView extends React.PureComponent {
 const mapStateToProps = state => ({ ...state.auth, ...state.user });
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(UserAction, dispatch),
-  navigateOfferList: () => dispatch({ type: ActionTypes.FETCH_OFFER })
+  navigateOfferList: () =>
+    dispatch(
+      NavigationActions.navigate({
+        routeName: StringConfig.OfferList.Name
+      })
+    )
 });
 
 export { OfferListView, DetailOfferView };
