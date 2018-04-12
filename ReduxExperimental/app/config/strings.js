@@ -19,6 +19,10 @@ export default {
     Name: 'OfferList',
     Title: 'Offer List'
   },
+  OfferSectionList: {
+    Name: 'OfferSectionList',
+    Title: 'Offer Section List'
+  },
   DetailOffer: {
     Name: 'DetailOffer',
     Title: 'Detail Offer'

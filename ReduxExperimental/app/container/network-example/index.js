@@ -10,7 +10,9 @@ import { UserAction } from '../../actions';
 import API from '../../api';
 import { Colors } from '../../constants';
 import { Button, InformationInput } from '../../components';
+
 import OfferListView from './transition-offer-list';
+import OfferSectionList from './transition-offer-section';
 import DetailOfferView from './transition-detail-offer';
 
 const styles = StyleSheet.create({
@@ -131,6 +133,11 @@ class NetworkView extends React.PureComponent {
           style={styles.button}
           onPress={this.props.navigateOfferList}
         />
+        <Button
+          title="Offer List - Section"
+          style={styles.button}
+          onPress={this.props.navigateOfferSectionList}
+        />
         <Button title="Logout" style={styles.button} onPress={this.logout} />
       </View>
     );
@@ -175,8 +182,14 @@ const mapDispatchToProps = dispatch => ({
       NavigationActions.navigate({
         routeName: StringConfig.OfferList.Name
       })
+    ),
+  navigateOfferSectionList: () =>
+    dispatch(
+      NavigationActions.navigate({
+        routeName: StringConfig.OfferSectionList.Name
+      })
     )
 });
 
-export { OfferListView, DetailOfferView };
+export { OfferListView, DetailOfferView, OfferSectionList };
 export default connect(mapStateToProps, mapDispatchToProps)(NetworkView);
