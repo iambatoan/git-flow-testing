@@ -3,7 +3,10 @@ import StringConfig from './strings';
 import MainView from '../container/main';
 import ReduxView from '../container/redux-example';
 import AutoLayoutView from '../container/autolayout-example';
-import NetworkView from '../container/network-example';
+import NetworkView, {
+  OfferListView,
+  DetailOfferView
+} from '../container/network-example';
 
 const RouteConfig = [
   {
@@ -26,6 +29,16 @@ const RouteConfig = [
     screen: NetworkView,
     title: StringConfig.Network.Title,
     hideNavBar: true
+  },
+  {
+    screenName: StringConfig.OfferList.Name,
+    screen: OfferListView,
+    title: StringConfig.OfferList.Title
+  },
+  {
+    screenName: StringConfig.DetailOffer.Name,
+    screen: DetailOfferView,
+    title: StringConfig.DetailOffer.Title
   }
 ];
 

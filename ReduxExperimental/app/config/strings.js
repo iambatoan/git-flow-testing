@@ -14,5 +14,13 @@ export default {
   Network: {
     Name: 'NetworkExample',
     Title: 'Network Example'
+  },
+  OfferList: {
+    Name: 'OfferList',
+    Title: 'Offer List'
+  },
+  DetailOffer: {
+    Name: 'DetailOffer',
+    Title: 'Detail Offer'
   }
 };

@@ -1,4 +1,4 @@
-// Login actions
+// User actions
 const LOGIN = 'LOGIN';
 const LOGOUT = 'LOGOUT';
 const GET_USER_INFORMATION = 'GET_USER_INFORMATION';
@@ -9,6 +9,10 @@ const LOGIN_ERROR_REQUEST = 'LOGIN_ERROR_REQUEST';
 const INCREASE = 'INCREASE';
 const DECREASE = 'DECREASE';
 
+// Offer actions
+const FETCH_OFFER = 'FETCH_OFFER';
+const FETCH_DETAIL_OFFER = 'FETCH_DETAIL_OFFER';
+
 export default {
   INCREASE,
   DECREASE,
@@ -16,5 +20,7 @@ export default {
   LOGOUT,
   GET_USER_INFORMATION,
   LOGIN_LOADING,
-  LOGIN_ERROR_REQUEST
+  LOGIN_ERROR_REQUEST,
+  FETCH_OFFER,
+  FETCH_DETAIL_OFFER
 };
