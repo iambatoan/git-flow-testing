@@ -71,13 +71,15 @@ class TransitionOffers extends React.Component {
   _renderUser(user) {
     return (
       <View>
-        <Image
-          style={styles.image}
-          resizeMode="stretch"
-          source={{
-            uri: user.avatar_url
-          }}
-        />
+        {user.avatar_url ? (
+          <Image
+            style={styles.image}
+            resizeMode="stretch"
+            source={{
+              uri: user.avatar_url
+            }}
+          />
+        ) : null}
         {this._renderContent('Name: ', user.full_name)}
         {this._renderContent('Level: ', user.level)}
         {this._renderContent('Rating: ', user.average_overall_rating)}

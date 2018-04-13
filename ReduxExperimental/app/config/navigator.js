@@ -5,6 +5,7 @@ import ReduxView from '../container/redux-example';
 import AutoLayoutView from '../container/autolayout-example';
 import NetworkView, {
   OfferListView,
+  OfferSectionList,
   DetailOfferView
 } from '../container/network-example';
 
@@ -34,6 +35,11 @@ const RouteConfig = [
     screenName: StringConfig.OfferList.Name,
     screen: OfferListView,
     title: StringConfig.OfferList.Title
+  },
+  {
+    screenName: StringConfig.OfferSectionList.Name,
+    screen: OfferSectionList,
+    title: StringConfig.OfferSectionList.Title
   },
   {
     screenName: StringConfig.DetailOffer.Name,
