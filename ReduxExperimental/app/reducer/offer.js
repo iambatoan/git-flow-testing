@@ -24,6 +24,9 @@ const _processSectionList = datas => {
       };
     }
   });
+  if (sectionItem.data.length !== 0) {
+    sectionList.push(sectionItem);
+  }
   return sectionList;
 };
 
