@@ -20,10 +20,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  loadingView: {
-    flex: 1,
+  emptyView: {
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    padding: 15
   },
   rowContainer: {
     flexDirection: 'row',
@@ -76,6 +76,9 @@ class TransitionOffers extends React.Component {
   constructor(props) {
     super(props);
     this._renderItem = this._renderItem.bind(this);
+    this._renderFooter = this._renderFooter.bind(this);
+    this.loadMore = this._handleLoadMore.bind(this);
+    this.onEndReachedCalledDuringMomentum = false;
   }
 
   componentDidMount() {
@@ -86,9 +89,29 @@ class TransitionOffers extends React.Component {
     this.props.actions.resetOffer();
   }
 
+  _handleLoadMore() {
+    console.log('_handleLoadMore: ', !this.onEndReachedCalledDuringMomentum, this.props.offset);
+    if (!this.onEndReachedCalledDuringMomentum && this.props.offset) {
+      console.log('_handleLoadMore: ', this.props.offers.length);
+      this.props.actions.loadMore(this.props.offset);
+      this.onEndReachedCalledDuringMomentum = true;
+    }
+  }
+
   _keyExtractor = (item, index) => String(item.offer.id);
 
   _renderSeparator = () => <View style={styles.line} />;
+
+  _renderFooter() {
+    if (!this.props.isLoading) {
+      return <View />;
+    }
+    return (
+      <View style={styles.emptyView}>
+        <ActivityIndicator />
+      </View>
+    );
+  }
 
   _renderItem1 = offer => (
     <View style={styles.rowContainer}>
@@ -165,14 +188,14 @@ class TransitionOffers extends React.Component {
     const { isLoading, offers, errorMessage } = this.props;
     if (errorMessage && errorMessage.length > 0) {
       return (
-        <View style={styles.loadingView}>
+        <View style={[styles.container, styles.emptyView]}>
           <Text style={styles.error}>{`Error: ${errorMessage}`}</Text>
         </View>
       );
     }
-    if (isLoading) {
+    if (isLoading && !offers && offers.length === 0) {
       return (
-        <View style={styles.loadingView}>
+        <View style={[styles.container, styles.emptyView]}>
           <ActivityIndicator />
         </View>
       );
@@ -184,6 +207,13 @@ class TransitionOffers extends React.Component {
           renderItem={this._renderItem}
           keyExtractor={this._keyExtractor}
           ItemSeparatorComponent={this._renderSeparator}
+          ListFooterComponent={this._renderFooter}
+          onEndReached={this.loadMore}
+          onEndReachedThreshold={0.01}
+          onMomentumScrollBegin={() => {
+            this.onEndReachedCalledDuringMomentum = false;
+          }} // https://github.com/facebook/react-native/issues/14015
+          bounces={false}
         />
       </View>
     );
