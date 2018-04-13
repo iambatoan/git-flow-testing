@@ -141,7 +141,6 @@ class TransitionOffers extends React.Component {
         </View>
       );
     }
-    console.log(sectionOffers);
     return (
       <View style={styles.container}>
         <SectionList
