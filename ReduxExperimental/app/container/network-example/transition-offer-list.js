@@ -222,7 +222,7 @@ class TransitionOffers extends React.Component {
           refreshing={isLoading}
           onRefresh={this.getData}
           onEndReached={this.loadMore}
-          onEndReachedThreshold={0.5}
+          onEndReachedThreshold={0.01}
           onMomentumScrollBegin={() => {
             this.onEndReachedCalledDuringMomentum = false;
           }} // https://github.com/facebook/react-native/issues/14015
