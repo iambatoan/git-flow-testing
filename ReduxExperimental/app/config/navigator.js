@@ -34,17 +34,20 @@ const RouteConfig = [
   {
     screenName: StringConfig.OfferList.Name,
     screen: OfferListView,
-    title: StringConfig.OfferList.Title
+    title: StringConfig.OfferList.Title,
+    hideNavBar: true
   },
   {
     screenName: StringConfig.OfferSectionList.Name,
     screen: OfferSectionList,
-    title: StringConfig.OfferSectionList.Title
+    title: StringConfig.OfferSectionList.Title,
+    hideNavBar: true
   },
   {
     screenName: StringConfig.DetailOffer.Name,
     screen: DetailOfferView,
-    title: StringConfig.DetailOffer.Title
+    title: StringConfig.DetailOffer.Title,
+    hideNavBar: true
   }
 ];
 

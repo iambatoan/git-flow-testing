@@ -12,9 +12,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { NavigationActions } from 'react-navigation';
 
-import { StringConfig } from '../../config';
-import { Colors } from '../../constants';
-import { OfferAction } from '../../actions';
+import { StringConfig } from '../../../config';
+import { Colors } from '../../../constants';
+import { OfferAction } from '../../../actions';
+
+import SelectionRow from './selection-row';
 
 const styles = StyleSheet.create({
   container: {
@@ -34,17 +36,9 @@ const styles = StyleSheet.create({
   rowContent: {
     flex: 1
   },
-  status: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: 15
-  },
   line: {
     height: StyleSheet.hairlineWidth,
     backgroundColor: Colors.black
-  },
-  firtRowContent: {
-    fontWeight: 'bold'
   },
   secondRowContent: {
     fontWeight: 'bold',
@@ -67,15 +61,12 @@ const styles = StyleSheet.create({
   }
 });
 
-const STATUS_COLOR = {
-  open: 'green',
-  close: 'red'
-};
-
 class TransitionOffers extends React.Component {
   constructor(props) {
     super(props);
     this._renderItem = this._renderItem.bind(this);
+    this._renderItem1 = this._renderItem1.bind(this);
+    this._renderItem2 = this._renderItem2.bind(this);
     this._renderFooter = this._renderFooter.bind(this);
     this.loadMore = this._handleLoadMore.bind(this);
     this.onEndReachedCalledDuringMomentum = false;
@@ -111,75 +102,57 @@ class TransitionOffers extends React.Component {
     );
   }
 
-  _renderItem1 = offer => (
-    <View style={styles.rowContainer}>
-      <View style={styles.rowContent}>
-        {offer.departure_location && offer.departure_location.length > 0 ? (
-          <Text style={styles.firtRowContent}>
-            {'Departure: '}
-            <Text style={styles.content}>{offer.departure_location}</Text>
-          </Text>
-        ) : null}
-        {offer.arrival_location && offer.arrival_location.length > 0 ? (
-          <Text style={styles.secondRowContent}>
-            {'Arrival: '}
-            <Text style={styles.content}>{offer.arrival_location}</Text>
-          </Text>
-        ) : null}
-      </View>
-      <View style={styles.status}>
-        <Text style={{ color: STATUS_COLOR[offer.status] }}>
-          {offer.status.toUpperCase()}
-        </Text>
-      </View>
-    </View>
-  );
-
-  _renderItem2 = item => {
-    const { user, offer } = item;
+  _renderItem1(item) {
     return (
-      <View style={styles.rowContainer}>
-        {user.avatar_url && user.avatar_url.length > 0 ? (
-          <Image
-            style={styles.image}
-            resizeMode="stretch"
-            source={{
-              uri: user.avatar_url
-            }}
-          />
-        ) : null}
-        <View style={styles.rowContent}>
-          {user.full_name && user.full_name.length > 0 ? (
-            <Text style={[styles.secondRowContent, styles.italicText]}>
-              {'Driver: '}
-              <Text style={styles.content}>{user.full_name}</Text>
-            </Text>
-          ) : null}
-          {offer.description && offer.description.length > 0 ? (
-            <Text
-              style={[styles.secondRowContent, styles.italicText]}
-              numberOfLines={2}
-            >
-              {'Trip Description: '}
-              <Text style={styles.content}>{offer.description}</Text>
-            </Text>
-          ) : null}
-        </View>
-      </View>
+      <SelectionRow
+        item={item}
+        navigateToDetail={() => this.props.navigateToDetail(item.offer.id)}
+      />
     );
-  };
+  }
 
-  _renderItem({ item, index }) {
-    const { offer } = item;
+  _renderItem2(item) {
+    const { user, offer } = item;
     return (
       <TouchableOpacity
         onPress={() => {
           this.props.navigateToDetail(offer.id);
         }}
       >
-        {index % 2 === 0 ? this._renderItem1(offer) : this._renderItem2(item)}
+        <View style={styles.rowContainer}>
+          {user.avatar_url && user.avatar_url.length > 0 ? (
+            <Image
+              style={styles.image}
+              resizeMode="stretch"
+              source={{
+                uri: user.avatar_url
+              }}
+            />
+          ) : null}
+          <View style={styles.rowContent}>
+            {user.full_name && user.full_name.length > 0 ? (
+              <Text style={[styles.secondRowContent, styles.italicText]}>
+                {'Driver: '}
+                <Text style={styles.content}>{user.full_name}</Text>
+              </Text>
+            ) : null}
+            {offer.description && offer.description.length > 0 ? (
+              <Text
+                style={[styles.secondRowContent, styles.italicText]}
+                numberOfLines={2}
+              >
+                {'Trip Description: '}
+                <Text style={styles.content}>{offer.description}</Text>
+              </Text>
+            ) : null}
+          </View>
+        </View>
       </TouchableOpacity>
     );
+  }
+
+  _renderItem({ item, index }) {
+    return index % 2 === 0 ? this._renderItem1(item) : this._renderItem2(item);
   }
 
   render() {
