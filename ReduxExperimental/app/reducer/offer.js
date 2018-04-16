@@ -4,7 +4,8 @@ const initialStates = {
   offers: [],
   sectionOffers: [],
   isLoading: false,
-  errorMessage: ''
+  errorMessage: '',
+  offset: 1
 };
 
 const _processSectionList = datas => {
@@ -37,7 +38,15 @@ export default (state = initialStates, action = {}) => {
         ...state,
         offers: action.offers,
         sectionOffers: _processSectionList(action.offers),
+        offset: action.offset,
         isLoading: false
+      };
+    case ActionTypes.LOAD_MORE_OFFER:
+      return {
+        ...state,
+        offset: action.offset,
+        isLoading: false,
+        offers: state.offers.concat(action.data)
       };
     case ActionTypes.FETCH_OFFER_ERROR:
       return {
