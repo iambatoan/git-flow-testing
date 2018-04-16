@@ -90,9 +90,7 @@ class TransitionOffers extends React.Component {
   }
 
   _handleLoadMore() {
-    console.log('_handleLoadMore: ', !this.onEndReachedCalledDuringMomentum, this.props.offset);
     if (!this.onEndReachedCalledDuringMomentum && this.props.offset) {
-      console.log('_handleLoadMore: ', this.props.offers.length);
       this.props.actions.loadMore(this.props.offset);
       this.onEndReachedCalledDuringMomentum = true;
     }
