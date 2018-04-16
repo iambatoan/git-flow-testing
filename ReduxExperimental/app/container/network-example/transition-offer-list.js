@@ -78,19 +78,28 @@ class TransitionOffers extends React.Component {
     this._renderItem = this._renderItem.bind(this);
     this._renderFooter = this._renderFooter.bind(this);
     this.loadMore = this._handleLoadMore.bind(this);
+    this.getData = this._handleGetData.bind(this);
     this.onEndReachedCalledDuringMomentum = false;
   }
 
   componentDidMount() {
-    this.props.actions.getOffers();
+    this._handleGetData();
   }
 
   componentWillUnmount() {
     this.props.actions.resetOffer();
   }
 
+  _handleGetData() {
+    this.props.actions.getOffers();
+  }
+
   _handleLoadMore() {
-    if (!this.onEndReachedCalledDuringMomentum && this.props.offset) {
+    if (
+      !this.onEndReachedCalledDuringMomentum &&
+      this.props.offset &&
+      !this.props.isLoading
+    ) {
       this.props.actions.loadMore(this.props.offset);
       this.onEndReachedCalledDuringMomentum = true;
     }
@@ -101,7 +110,11 @@ class TransitionOffers extends React.Component {
   _renderSeparator = () => <View style={styles.line} />;
 
   _renderFooter() {
-    if (!this.props.isLoading) {
+    if (
+      !this.props.isLoading ||
+      !this.props.offers ||
+      this.props.offers.length === 0
+    ) {
       return <View />;
     }
     return (
@@ -191,7 +204,7 @@ class TransitionOffers extends React.Component {
         </View>
       );
     }
-    if (isLoading && !offers && offers.length === 0) {
+    if (isLoading && (!offers || offers.length === 0)) {
       return (
         <View style={[styles.container, styles.emptyView]}>
           <ActivityIndicator />
@@ -206,12 +219,13 @@ class TransitionOffers extends React.Component {
           keyExtractor={this._keyExtractor}
           ItemSeparatorComponent={this._renderSeparator}
           ListFooterComponent={this._renderFooter}
+          refreshing={isLoading}
+          onRefresh={this.getData}
           onEndReached={this.loadMore}
           onEndReachedThreshold={0.01}
           onMomentumScrollBegin={() => {
             this.onEndReachedCalledDuringMomentum = false;
           }} // https://github.com/facebook/react-native/issues/14015
-          bounces={false}
         />
       </View>
     );
