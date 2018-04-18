@@ -36,5 +36,9 @@ export default {
   },
   AppIntroPartLayout: {
     Name: 'AppIntroPartLayout'
+  },
+  Map: {
+    Name: 'Map',
+    Title: 'Map'
   }
 };

@@ -9,6 +9,7 @@ import NetworkView, {
   DetailOfferView
 } from '../container/network-example';
 import AppIntro, { FullLayout, PartLayout } from '../container/app-intro';
+import MapView from '../container/maps';
 
 const RouteConfig = [
   {
@@ -67,7 +68,13 @@ const RouteConfig = [
     screen: PartLayout,
     hideNavBar: true,
     hideStatusBar: true
-  }
+  },
+  {
+    screenName: StringConfig.Map.Name,
+    screen: MapView,
+    title: StringConfig.Map.Title,
+    hideNavBar: true
+  },
 ];
 
 const DefaultTransitionConfig = () => ({

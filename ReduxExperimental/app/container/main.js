@@ -42,6 +42,12 @@ class Main extends Component {
             this.props.navigateToAppIntro();
           }}
         />
+        <Button
+          title="MAP"
+          onPress={() => {
+            this.props.navigateToMapView();
+          }}
+        />
       </View>
     );
   }
@@ -64,7 +70,9 @@ const mapDispatchToProps = dispatch => ({
   navigateToAppIntro: () =>
     dispatch(
       NavigationActions.navigate({ routeName: StringConfig.AppIntro.Name })
-    )
+    ),
+  navigateToMapView: () =>
+    dispatch(NavigationActions.navigate({ routeName: StringConfig.Map.Name }))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
