@@ -48,7 +48,9 @@ export default class AppIntro extends Component {
     super(props);
 
     this.renderPagination = this.renderPagination.bind(this);
-    this._onLayout = this._onLayout.bind(this);
+    this.renderHeader = this.renderHeader.bind(this);
+    this._onBottomLayout = this._onBottomLayout.bind(this);
+    this._onHeaderLayout = this._onHeaderLayout.bind(this);
 
     this.styles = StyleSheet.create(
       assign({}, defaulStyles, props.customStyles)
@@ -58,7 +60,8 @@ export default class AppIntro extends Component {
       skipFadeOpacity: new Animated.Value(1),
       nextOpacity: new Animated.Value(1),
       parallax: new Animated.Value(0),
-      contentHeight: 0
+      bottomHeight: 0,
+      headerHeight: 0
     };
   }
 
@@ -142,17 +145,23 @@ export default class AppIntro extends Component {
     return `#${finalColor}`;
   };
 
-  _onLayout(event) {
+  _onBottomLayout(event) {
     const { height } = event.nativeEvent.layout;
-    const contentHeight = windowsHeight - height;
-    if (contentHeight !== this.state.contentHeight) {
-      this.setState({ contentHeight });
+    if (height !== this.state.bottomHeight) {
+      this.setState({ bottomHeight: height });
+    }
+  }
+
+  _onHeaderLayout(event) {
+    const { height } = event.nativeEvent.layout;
+    if (height !== this.state.headerHeight) {
+      this.setState({ headerHeight: height });
     }
   }
 
   renderPagination(index, total, context) {
     return (
-      <View onLayout={this._onLayout} style={this.styles.bottomContainer}>
+      <View onLayout={this._onBottomLayout} style={this.styles.bottomContainer}>
         <View style={this.styles.paginationContainer}>
           {this.props.showDots &&
             RenderDots(index, total, {
@@ -175,8 +184,14 @@ export default class AppIntro extends Component {
     );
   }
 
+  renderHeader() {
+    return this.props.renderHeader ? (
+      <View onLayout={this._onHeaderLayout}>{this.props.renderHeader()}</View>
+    ) : null;
+  }
+
   renderItem(index, item) {
-    const { contentHeight } = this.state;
+    const { bottomHeight, headerHeight } = this.state;
     const { image, level, backgroundColor } = item;
     const bottomSpacer =
       (this.props.bottomButton
@@ -185,6 +200,7 @@ export default class AppIntro extends Component {
       (isIphoneX ? 34 : 0) +
       64;
     const topSpacer =
+      headerHeight +
       (isIphoneX ? 44 : 0) +
       (Platform.OS === 'ios' ? 20 : StatusBar.currentHeight);
 
@@ -199,7 +215,7 @@ export default class AppIntro extends Component {
       bottomSpacer,
       topSpacer,
       width: windowsWidth,
-      height: contentHeight,
+      height: windowsHeight - bottomHeight,
       AnimatedStyle1,
       AnimatedStyle2,
       AnimatedStyle3
@@ -235,6 +251,7 @@ export default class AppIntro extends Component {
         loop={false}
         index={this.props.defaultIndex}
         renderPagination={this.renderPagination}
+        renderHeader={this.renderHeader}
         onMomentumScrollEnd={(e, state) => {
           if (Platform.OS === 'android') {
             StatusBar.setBackgroundColor(

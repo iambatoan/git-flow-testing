@@ -67,15 +67,12 @@ let styles = StyleSheet.create({
     backgroundColor:'transparent',
   },
 
-  title: {
-    height: 30,
+  header: {
     justifyContent: 'center',
     position: 'absolute',
-    paddingLeft: 10,
-    bottom: -30,
+    top: 20,
     left: 0,
-    flexWrap: 'nowrap',
-    width: 250,
+    width,
     backgroundColor: 'transparent',
   },
 
@@ -409,7 +406,15 @@ module.exports = createReactClass({
       </View>
     )
   },
-
+  renderHeader() {
+    return this.props.renderHeader
+      ? (
+        <View style={styles.header}>
+          {this.props.renderHeader()}
+        </View>
+      )
+      : null;
+  },
   renderTitle() {
     let child = this.props.children[this.state.index]
     let title = child && child.props.title
@@ -420,47 +425,6 @@ module.exports = createReactClass({
         </View>
       )
       : null
-  },
-
-  renderNextButton() {
-    let button;
-
-    if (this.props.loop || this.state.index != this.state.total - 1) {
-      button = this.props.nextButton || <Text style={styles.buttonText}>›</Text>
-    }
-
-    return (
-      <TouchableOpacity onPress={() => button !== null && this.scrollTo.call(this, 1)}>
-        <View>
-          {button}
-        </View>
-      </TouchableOpacity>
-    )
-  },
-
-  renderPrevButton() {
-    let button = null
-
-    if (this.props.loop || this.state.index != 0) {
-       button = this.props.prevButton || <Text style={styles.buttonText}>‹</Text>
-    }
-
-    return (
-      <TouchableOpacity onPress={() => button !== null && this.scrollTo.call(this, -1)}>
-        <View>
-          {button}
-        </View>
-      </TouchableOpacity>
-    )
-  },
-
-  renderButtons() {
-    return (
-      <View pointerEvents='box-none' style={[styles.buttonWrapper, {width: this.state.width, height: this.state.height}, this.props.buttonWrapperStyle]}>
-        {this.renderPrevButton()}
-        {this.renderNextButton()}
-      </View>
-    )
   },
   renderScrollView(pages) {
      if (Platform.OS === 'ios')
@@ -558,11 +522,8 @@ module.exports = createReactClass({
         height: state.height
       }]}>
         {this.renderScrollView(pages)}
-        {props.showsPagination && (props.renderPagination
-          ? this.props.renderPagination(state.index, state.total, this)
-          : this.renderPagination())}
-        {this.renderTitle()}
-        {this.props.showsButtons && this.renderButtons()}
+        {props.showsPagination && this.props.renderPagination(state.index, state.total, this)}
+        {this.renderHeader()}
       </View>
     )
   }

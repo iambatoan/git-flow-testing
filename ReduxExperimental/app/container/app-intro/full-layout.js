@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { StatusBar } from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 
@@ -9,6 +10,7 @@ class FullLayout extends Component {
   constructor(props) {
     super(props);
     this.onSkipBtnHandle = this.onSkipBtnHandle.bind(this);
+    StatusBar.setBarStyle('light-content');
   }
 
   onSkipBtnHandle(index) {
