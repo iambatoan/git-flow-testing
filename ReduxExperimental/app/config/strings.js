@@ -26,5 +26,15 @@ export default {
   DetailOffer: {
     Name: 'DetailOffer',
     Title: 'Detail Offer'
+  },
+  AppIntro: {
+    Name: 'AppIntro',
+    Title: 'App Intro'
+  },
+  AppIntroFullLayout: {
+    Name: 'AppIntroFullLayout'
+  },
+  AppIntroPartLayout: {
+    Name: 'AppIntroPartLayout'
   }
 };

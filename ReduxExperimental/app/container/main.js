@@ -36,6 +36,12 @@ class Main extends Component {
             this.props.navigateToNetworkExample();
           }}
         />
+        <Button
+          title="APP INTRO"
+          onPress={() => {
+            this.props.navigateToAppIntro();
+          }}
+        />
       </View>
     );
   }
@@ -54,6 +60,10 @@ const mapDispatchToProps = dispatch => ({
   navigateToNetworkExample: () =>
     dispatch(
       NavigationActions.navigate({ routeName: StringConfig.Network.Name })
+    ),
+  navigateToAppIntro: () =>
+    dispatch(
+      NavigationActions.navigate({ routeName: StringConfig.AppIntro.Name })
     )
 });
 
