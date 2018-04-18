@@ -14,6 +14,7 @@ class FullLayout extends Component {
   }
 
   onSkipBtnHandle(index) {
+    StatusBar.setBarStyle('default');
     this.props.pop();
   }
 
