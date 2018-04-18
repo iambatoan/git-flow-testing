@@ -15,6 +15,7 @@
     "query-string": "^6.0.0",
     "react": "^16.0.0",
     "react-native": "0.55.0",
+    "react-native-maps": "^0.21.0",
     "react-navigation": "^1.5.11",
     "react-navigation-redux-helpers": "^1.0.5",
     "react-redux": "^5.0.7",
