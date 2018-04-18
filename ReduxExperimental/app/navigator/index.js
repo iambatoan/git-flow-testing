@@ -14,13 +14,23 @@ import Header from './header';
 
 const _processRouteConfig = () =>
   NavigatorConfig.RouteConfig.reduce((routes, screen) => {
-    const { screenName, hideNavBar, title, navigationOptions } = screen;
+    const {
+      screenName,
+      hideNavBar,
+      title,
+      navigationOptions,
+      hideStatusBar = false
+    } = screen;
     const headerStyle = {
       paddingTop: Platform.select({ ios: Dimens.STATUS_BAR_HEIGHT, android: 0 })
     };
+    let _header = undefined;
+    if (hideStatusBar) {
+      _header = null;
+    }
     const _navigationOptions = ({ navigation }) => ({
       header: hideNavBar ? (
-        undefined
+        _header
       ) : (
         <Header
           containerStyle={headerStyle}

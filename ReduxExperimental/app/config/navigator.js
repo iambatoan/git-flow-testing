@@ -8,6 +8,7 @@ import NetworkView, {
   OfferSectionList,
   DetailOfferView
 } from '../container/network-example';
+import AppIntro, { FullLayout, PartLayout } from '../container/app-intro';
 
 const RouteConfig = [
   {
@@ -48,6 +49,24 @@ const RouteConfig = [
     screen: DetailOfferView,
     title: StringConfig.DetailOffer.Title,
     hideNavBar: true
+  },
+  {
+    screenName: StringConfig.AppIntro.Name,
+    screen: AppIntro,
+    title: StringConfig.AppIntro.Title,
+    hideNavBar: true
+  },
+  {
+    screenName: StringConfig.AppIntroFullLayout.Name,
+    screen: FullLayout,
+    hideNavBar: true,
+    hideStatusBar: true
+  },
+  {
+    screenName: StringConfig.AppIntroPartLayout.Name,
+    screen: PartLayout,
+    hideNavBar: true,
+    hideStatusBar: true
   }
 ];
 
