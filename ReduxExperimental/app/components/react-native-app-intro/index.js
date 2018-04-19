@@ -26,7 +26,7 @@ const defaulStyles = {
   },
   bottomContainer: {
     position: 'absolute',
-    bottom: 25,
+    bottom: 40,
     left: 0,
     right: 0,
     justifyContent: 'center',

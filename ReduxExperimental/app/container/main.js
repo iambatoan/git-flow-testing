@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+import { StyleSheet, ScrollView } from 'react-native';
+import { NavigationActions, SafeAreaView } from 'react-navigation';
 import { connect } from 'react-redux';
 
 import { Button } from '../components';
@@ -8,7 +8,6 @@ import { StringConfig } from '../config';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
   }
@@ -17,38 +16,40 @@ const styles = StyleSheet.create({
 class Main extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Button
-          title="REDUX EXAMPLE"
-          onPress={() => {
-            this.props.navigateToReduxExample();
-          }}
-        />
-        <Button
-          title="AUTO LAYOUT"
-          onPress={() => {
-            this.props.navigateToAutoLayoutExample();
-          }}
-        />
-        <Button
-          title="NETWORK"
-          onPress={() => {
-            this.props.navigateToNetworkExample();
-          }}
-        />
-        <Button
-          title="APP INTRO"
-          onPress={() => {
-            this.props.navigateToAppIntro();
-          }}
-        />
-        <Button
-          title="MAP"
-          onPress={() => {
-            this.props.navigateToMapView();
-          }}
-        />
-      </View>
+      <SafeAreaView>
+        <ScrollView contentContainerStyle={styles.container}>
+          <Button
+            title="REDUX EXAMPLE"
+            onPress={() => {
+              this.props.navigateToReduxExample();
+            }}
+          />
+          <Button
+            title="AUTO LAYOUT"
+            onPress={() => {
+              this.props.navigateToAutoLayoutExample();
+            }}
+          />
+          <Button
+            title="NETWORK"
+            onPress={() => {
+              this.props.navigateToNetworkExample();
+            }}
+          />
+          <Button
+            title="APP INTRO"
+            onPress={() => {
+              this.props.navigateToAppIntro();
+            }}
+          />
+          <Button
+            title="MAP"
+            onPress={() => {
+              this.props.navigateToMapView();
+            }}
+          />
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 }

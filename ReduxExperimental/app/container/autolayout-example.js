@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-navigation';
 
 import { LayoutConfig } from '../config';
 import { AutoLayoutView } from '../components';
@@ -45,15 +46,17 @@ export default class AutoLayout extends React.Component {
 
   render() {
     return (
-      <ScrollView>
-        <View style={styles.container}>
-          <AutoLayoutView
-            datas={this.data}
-            containerStyle={styles.viewContainer}
-            renderItem={this.renderItem}
-          />
-        </View>
-      </ScrollView>
+      <SafeAreaView>
+        <ScrollView>
+          <View style={styles.container}>
+            <AutoLayoutView
+              datas={this.data}
+              containerStyle={styles.viewContainer}
+              renderItem={this.renderItem}
+            />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 }

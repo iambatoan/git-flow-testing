@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, SafeAreaView } from 'react-navigation';
 import { connect } from 'react-redux';
 
 import { Button } from '../../components';
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 class AppIntro extends Component {
   render() {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <Button
           title="FULL LAYOUT SLIDE"
           onPress={() => {
@@ -33,7 +33,7 @@ class AppIntro extends Component {
             this.props.navigateToPartLayout();
           }}
         />
-      </View>
+      </SafeAreaView>
     );
   }
 }

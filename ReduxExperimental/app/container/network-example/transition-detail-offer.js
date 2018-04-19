@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { SafeAreaView } from 'react-navigation';
 
 import { OfferAction } from '../../actions';
 import { Colors } from '../../constants';
@@ -103,12 +104,13 @@ class TransitionOffers extends React.Component {
         </View>
       );
     }
+
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         {this._renderOffer(data.offer)}
         <View style={styles.line} />
         {this._renderUser(data.user)}
-      </View>
+      </SafeAreaView>
     );
   }
 }

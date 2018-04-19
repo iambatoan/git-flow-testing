@@ -1,6 +1,10 @@
 import React from 'react';
-import { View, Platform } from 'react-native';
-import { StackNavigator, addNavigationHelpers } from 'react-navigation';
+import { BackHandler } from 'react-native';
+import {
+  StackNavigator,
+  addNavigationHelpers,
+  NavigationActions
+} from 'react-navigation';
 import {
   createReduxBoundAddListener,
   createReactNavigationReduxMiddleware
@@ -8,7 +12,6 @@ import {
 import { connect } from 'react-redux';
 
 import { NavigatorConfig } from '../config';
-import { Dimens } from '../constants';
 
 import Header from './header';
 
@@ -21,9 +24,6 @@ const _processRouteConfig = () =>
       navigationOptions,
       hideStatusBar = false
     } = screen;
-    const headerStyle = {
-      paddingTop: Platform.select({ ios: Dimens.STATUS_BAR_HEIGHT, android: 0 })
-    };
     let _header = undefined;
     if (hideStatusBar) {
       _header = null;
@@ -32,11 +32,7 @@ const _processRouteConfig = () =>
       header: hideNavBar ? (
         _header
       ) : (
-        <Header
-          containerStyle={headerStyle}
-          navigation={navigation}
-          title={title}
-        />
+        <Header navigation={navigation} title={title} />
       ),
       title,
       ...navigationOptions

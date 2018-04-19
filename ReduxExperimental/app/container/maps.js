@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Alert } from 'react-native';
+import { SafeAreaView } from 'react-navigation';
 import MapView, { Marker } from 'react-native-maps';
 
 import { Button } from '../components';
@@ -95,7 +96,7 @@ export default class MapScreen extends React.Component {
       return <View />;
     }
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <MapView
           style={styles.map}
           region={this.state.region}
@@ -127,7 +128,7 @@ export default class MapScreen extends React.Component {
           title="Show restaurant"
           onPress={this.showRestaurants}
         />
-      </View>
+      </SafeAreaView>
     );
   }
 }

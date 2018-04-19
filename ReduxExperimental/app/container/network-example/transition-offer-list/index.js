@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, SafeAreaView } from 'react-navigation';
 
 import { StringConfig } from '../../../config';
 import { Colors } from '../../../constants';
@@ -185,7 +185,7 @@ class TransitionOffers extends React.Component {
       );
     }
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <FlatList
           data={offers}
           renderItem={this._renderItem}
@@ -200,7 +200,7 @@ class TransitionOffers extends React.Component {
             this.onEndReachedCalledDuringMomentum = false;
           }} // https://github.com/facebook/react-native/issues/14015
         />
-      </View>
+      </SafeAreaView>
     );
   }
 }
