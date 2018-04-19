@@ -6,7 +6,7 @@ target 'ReduxExperimental' do
   # use_frameworks!
 
   # Pods for ReduxExperimental
-rn_path = '../node_modules/react-native'
+  rn_path = '../node_modules/react-native'
   rn_maps_path = '../node_modules/react-native-maps'
 
   # See http://facebook.github.io/react-native/docs/integration-with-existing-apps.html#configuring-cocoapods-dependencies
