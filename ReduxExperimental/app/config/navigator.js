@@ -74,7 +74,7 @@ const RouteConfig = [
     screen: MapView,
     title: StringConfig.Map.Title,
     hideNavBar: true
-  },
+  }
 ];
 
 const DefaultTransitionConfig = () => ({
@@ -92,4 +92,6 @@ const DefaultTransitionConfig = () => ({
   }
 });
 
-export default { RouteConfig, DefaultTransitionConfig };
+const HomeScreen = StringConfig.Home.Name;
+
+export default { RouteConfig, DefaultTransitionConfig, HomeScreen };

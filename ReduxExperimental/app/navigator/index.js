@@ -52,12 +52,43 @@ const NavigatorMiddleware = createReactNavigationReduxMiddleware(
   'root',
   state => state.nav
 );
-const addListener = createReduxBoundAddListener('root');
-const AppWithNavigationState = ({ dispatch, nav }) => (
-  <AppNavigator
-    navigation={addNavigationHelpers({ dispatch, state: nav, addListener })}
-  />
-);
+
+class AppWithNavigationState extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onBackPress = this.onBackPress.bind(this);
+    BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+  }
+
+  onBackPress() {
+    let currentRoute = this.props.nav;
+    while (
+      currentRoute.routes &&
+      currentRoute.index < currentRoute.routes.length
+    ) {
+      currentRoute = currentRoute.routes[currentRoute.index];
+    }
+    const routeName = currentRoute.routeName;
+    if (routeName === NavigatorConfig.HomeScreen) {
+      return false;
+    }
+    this.props.dispatch(NavigationActions.pop());
+    return true;
+  }
+
+  render() {
+    const addListener = createReduxBoundAddListener('root');
+    return (
+      <AppNavigator
+        navigation={addNavigationHelpers({
+          dispatch: this.props.dispatch,
+          state: this.props.nav,
+          addListener
+        })}
+      />
+    );
+  }
+}
 
 const mapStatetoProps = state => ({ nav: state.nav });
 
