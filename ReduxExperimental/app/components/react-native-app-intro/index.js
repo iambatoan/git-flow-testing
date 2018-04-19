@@ -65,6 +65,10 @@ export default class AppIntro extends Component {
     };
   }
 
+  componentWillUnmount() {
+    StatusBar.setBackgroundColor(null);
+  }
+
   onNextBtnClick(context) {
     if (context.state.isScrolling || context.state.total < 2) return;
     const state = context.state;
