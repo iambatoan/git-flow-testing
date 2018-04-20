@@ -26,7 +26,7 @@ const defaulStyles = {
   },
   bottomContainer: {
     position: 'absolute',
-    bottom: 25,
+    bottom: 40,
     left: 0,
     right: 0,
     justifyContent: 'center',
@@ -63,6 +63,10 @@ export default class AppIntro extends Component {
       bottomHeight: 0,
       headerHeight: 0
     };
+  }
+
+  componentWillUnmount() {
+    // StatusBar.setBackgroundColor(null);
   }
 
   onNextBtnClick(context) {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-navigation';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -39,13 +40,13 @@ class ReduxView extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <Text style={styles.number}>{this.props.number}</Text>
         <View style={styles.buttonView}>
           <Button title="Increase" onPress={this.increase} />
           <Button title="Decrease" onPress={this.decrease} />
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }

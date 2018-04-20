@@ -4,10 +4,11 @@ import {
   View,
   ImageBackground,
   TouchableOpacity,
-  Text
+  Text,
+  Platform
 } from 'react-native';
 
-import { Colors } from '../constants';
+import { Colors, Dimens } from '../constants';
 
 const styles = StyleSheet.create({
   headerContainer: {
@@ -18,7 +19,8 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     width: null,
     height: null,
-    paddingHorizontal: 12
+    paddingHorizontal: 12,
+    paddingTop: Platform.select({ ios: Dimens.STATUS_BAR_HEIGHT, android: 0 })
   },
   backText: {
     color: Colors.black,
@@ -42,7 +44,7 @@ export default class Header extends React.Component {
     return (
       <View style={styles.headerContainer}>
         <ImageBackground
-          style={[this.props.containerStyle, styles.backgroundHeader]}
+          style={styles.backgroundHeader}
           resizeMode="stretch"
           source={{
             uri:

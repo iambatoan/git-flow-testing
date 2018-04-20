@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, SafeAreaView } from 'react-navigation';
 
 import { StringConfig } from '../../config';
 import { UserAction } from '../../actions';
@@ -147,7 +147,7 @@ class NetworkView extends React.PureComponent {
     const { errorMessage, user } = this.props;
     const { status } = this.state;
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         {status === requestStatus.HAVENT_YET_LOG ? (
           <View>
             <InformationInput title="Email" onChangeText={this.onChangeEmail} />
@@ -169,7 +169,7 @@ class NetworkView extends React.PureComponent {
         ) : (
           this.renderButton()
         )}
-      </View>
+      </SafeAreaView>
     );
   }
 }

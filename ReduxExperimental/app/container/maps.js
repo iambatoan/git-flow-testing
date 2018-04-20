@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import { ActivityIndicator, StyleSheet, Alert } from 'react-native';
+import { SafeAreaView } from 'react-navigation';
 import MapView, { Marker } from 'react-native-maps';
 
 import { Button } from '../components';
@@ -33,31 +34,63 @@ export default class MapScreen extends React.Component {
     this.onRegionChange = this.onRegionChange.bind(this);
     this.onShowMarkers = this.onShowMarkers.bind(this);
     this.showRestaurants = this.showRestaurants.bind(this);
+    this.onWatchPosition = this.onWatchPosition.bind(this);
+    this.onGetCurrentPosition = this.onGetCurrentPosition.bind(this);
+    this.delta = {
+      latitudeDelta: 0.015,
+      longitudeDelta: 0.0121
+    };
+    this.currentRegion = {
+      latitude: 0,
+      longitude: 0
+    };
     this.state = {
-      userPos: {},
+      userPos: this.currentRegion,
       markers: [],
-      region: {
-        latitude: 0,
-        longitude: 0,
-        latitudeDelta: 0.015,
-        longitudeDelta: 0.0121
-      }
+      region: this.currentRegion,
+      showLoading: true
     };
   }
 
   componentDidMount() {
+    this.onGetCurrentPosition();
+    this.onWatchPosition();
+  }
+
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchID);
+  }
+
+  onGetCurrentPosition() {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const userPos = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        };
+        if (userPos !== this.state.userPos) {
+          this.setState({ userPos, region: userPos, showLoading: false });
+          this.onRegionChange(userPos);
+        }
+      },
+      error => {
+        this.setState({ showLoading: false });
+        Alert.alert(error.message);
+      },
+      { enableHighAccuracy: false, timeout: 10000, maximumAge: 3000 }
+    );
+  }
+
+  onWatchPosition() {
     this.watchID = navigator.geolocation.watchPosition(position => {
       const userPos = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
       };
-      this.setState({ userPos });
-      this.onRegionChange(userPos);
+      if (userPos !== this.state.userPos) {
+        this.setState({ userPos, region: userPos, showLoading: false });
+      }
     });
-  }
-
-  componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchID);
   }
 
   onShowMarkers() {
@@ -68,7 +101,7 @@ export default class MapScreen extends React.Component {
   }
 
   onRegionChange(region) {
-    this.setState({ region: { ...this.state.region, ...region } });
+    this.currentRegion = region;
   }
 
   showRestaurants() {
@@ -83,7 +116,6 @@ export default class MapScreen extends React.Component {
         this.setState({ markers });
       })
       .catch(error => {
-        console.log('ERROR: ', error);
         if (error) {
           Alert.alert(error.errorMessage || error);
         }
@@ -91,14 +123,14 @@ export default class MapScreen extends React.Component {
   }
 
   render() {
-    if (this.state.region.latitude === 0 && this.state.region.longitude === 0) {
-      return <View />;
+    if (this.state.showLoading) {
+      return <ActivityIndicator />;
     }
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <MapView
           style={styles.map}
-          region={this.state.region}
+          region={{ ...this.state.region, ...this.delta }}
           onRegionChange={this.onRegionChange}
           showsUserLocation={true}
           followUserLocation={true}
@@ -120,14 +152,16 @@ export default class MapScreen extends React.Component {
         <Button
           style={styles.button}
           title="Show current location"
-          onPress={() => this.onRegionChange(this.state.userPos)}
+          onPress={() => {
+            this.setState({ region: this.state.userPos });
+          }}
         />
         <Button
           style={styles.button}
           title="Show restaurant"
           onPress={this.showRestaurants}
         />
-      </View>
+      </SafeAreaView>
     );
   }
 }

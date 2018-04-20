@@ -5,11 +5,9 @@
 import React from 'react'
 import {
   StyleSheet,
-  Text,
   View,
   ScrollView,
   Dimensions,
-  TouchableOpacity,
   ViewPagerAndroid,
   Platform
 } from 'react-native'
@@ -22,6 +20,8 @@ import createReactClass from 'create-react-class'
 // the component is unmounted, you risk the callback
 // throwing an exception.
 import TimerMixin from 'react-timer-mixin'
+
+import { Dimens } from '../../constants'
 
 let { width, height } = Dimensions.get('window')
 
@@ -70,7 +70,7 @@ let styles = StyleSheet.create({
   header: {
     justifyContent: 'center',
     position: 'absolute',
-    top: 20,
+    top: Platform.select({ android: 0, ios: Dimens.STATUS_BAR_HEIGHT }),
     left: 0,
     width,
     backgroundColor: 'transparent',

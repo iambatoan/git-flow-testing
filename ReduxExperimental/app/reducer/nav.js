@@ -1,10 +1,10 @@
 import { NavigationActions } from 'react-navigation';
 import { AppNavigator } from '../navigator';
-import { StringConfig } from '../config';
+import { NavigatorConfig, StringConfig } from '../config';
 import { ActionTypes } from '../actions';
 
 const initialState = AppNavigator.router.getStateForAction(
-  AppNavigator.router.getActionForPathAndParams(StringConfig.Home.Name)
+  AppNavigator.router.getActionForPathAndParams(NavigatorConfig.HomeScreen)
 );
 
 export default (state = initialState, action = {}) => {

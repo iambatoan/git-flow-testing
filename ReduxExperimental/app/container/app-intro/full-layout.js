@@ -13,8 +13,11 @@ class FullLayout extends Component {
     StatusBar.setBarStyle('light-content');
   }
 
-  onSkipBtnHandle(index) {
+  componentWillUnmount() {
     StatusBar.setBarStyle('default');
+  }
+
+  onSkipBtnHandle(index) {
     this.props.pop();
   }
 
