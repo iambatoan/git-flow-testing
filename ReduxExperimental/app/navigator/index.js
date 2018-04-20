@@ -8,9 +8,10 @@ import {
 import { connect } from 'react-redux';
 
 import { NavigatorConfig } from '../config';
-import AppStackNavigator from './stack-navigator';
+// import AppStackNavigator from './stack-navigator';
+import AppTabNavigator from './tab-navigator';
 
-const AppNavigator = AppStackNavigator;
+const AppNavigator = AppTabNavigator;
 class AppWithNavigationState extends React.Component {
   constructor(props) {
     super(props);
