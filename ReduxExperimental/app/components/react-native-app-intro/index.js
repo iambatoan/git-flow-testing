@@ -66,7 +66,7 @@ export default class AppIntro extends Component {
   }
 
   componentWillUnmount() {
-    StatusBar.setBackgroundColor(null);
+    // StatusBar.setBackgroundColor(null);
   }
 
   onNextBtnClick(context) {

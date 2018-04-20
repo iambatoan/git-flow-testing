@@ -26,6 +26,10 @@ class PartLayout extends Component {
     StatusBar.setBarStyle('light-content');
   }
 
+  componentWillUnmount() {
+    StatusBar.setBarStyle('default');
+  }
+
   onSkipBtnHandle(index) {
     StatusBar.setBarStyle('default');
     this.props.pop();
