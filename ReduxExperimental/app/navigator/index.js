@@ -1,10 +1,6 @@
 import React from 'react';
 import { BackHandler } from 'react-native';
-import {
-  StackNavigator,
-  addNavigationHelpers,
-  NavigationActions
-} from 'react-navigation';
+import { addNavigationHelpers, NavigationActions } from 'react-navigation';
 import {
   createReduxBoundAddListener,
   createReactNavigationReduxMiddleware
@@ -12,47 +8,9 @@ import {
 import { connect } from 'react-redux';
 
 import { NavigatorConfig } from '../config';
+import AppStackNavigator from './stack-navigator';
 
-import Header from './header';
-
-const _processRouteConfig = () =>
-  NavigatorConfig.RouteConfig.reduce((routes, screen) => {
-    const {
-      screenName,
-      hideNavBar,
-      title,
-      navigationOptions,
-      hideStatusBar = false
-    } = screen;
-    let _header = undefined;
-    if (hideStatusBar) {
-      _header = null;
-    }
-    const _navigationOptions = ({ navigation }) => ({
-      header: hideNavBar ? (
-        _header
-      ) : (
-        <Header navigation={navigation} title={title} />
-      ),
-      title,
-      ...navigationOptions
-    });
-    routes[screenName] = {
-      ...screen,
-      navigationOptions: _navigationOptions
-    };
-    return routes;
-  }, {});
-
-const AppNavigator = StackNavigator(_processRouteConfig(), {
-  transitionConfig: NavigatorConfig.DefaultTransitionConfig
-});
-
-const NavigatorMiddleware = createReactNavigationReduxMiddleware(
-  'root',
-  state => state.nav
-);
-
+const AppNavigator = AppStackNavigator;
 class AppWithNavigationState extends React.Component {
   constructor(props) {
     super(props);
@@ -89,6 +47,11 @@ class AppWithNavigationState extends React.Component {
     );
   }
 }
+
+const NavigatorMiddleware = createReactNavigationReduxMiddleware(
+  'root',
+  state => state.nav
+);
 
 const mapStatetoProps = state => ({ nav: state.nav });
 
